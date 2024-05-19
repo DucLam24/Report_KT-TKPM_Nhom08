@@ -9,7 +9,7 @@ public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "instructor_id")
-    private Long instructorId;
+    private int instructorId;
 
     @Column(name = "name")
     private String name;
@@ -40,17 +40,17 @@ public class Instructor {
     
     
 
-    public Instructor(Long instructorId) {
+    public Instructor(int instructorId) {
 		super();
 		this.instructorId = instructorId;
 	}
 
 	// Getters and Setters
-    public Long getInstructorId() {
+    public int getInstructorId() {
         return instructorId;
     }
 
-    public void setInstructorId(Long instructorId) {
+    public void setInstructorId(int instructorId) {
         this.instructorId = instructorId;
     }
 

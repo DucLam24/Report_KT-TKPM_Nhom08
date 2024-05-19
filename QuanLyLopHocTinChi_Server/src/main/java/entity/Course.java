@@ -9,7 +9,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
-    private Long courseId;
+    private int courseId;
 
     @Column(name = "name")
     private String name;
@@ -28,7 +28,7 @@ public class Course {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments;
 
     @ManyToMany
@@ -52,11 +52,11 @@ public class Course {
     }
 
     // Getters and Setters
-    public Long getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Long courseId) {
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 

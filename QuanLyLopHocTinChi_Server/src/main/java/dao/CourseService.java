@@ -10,4 +10,5 @@ public interface CourseService {
     void deleteCourse(Long courseId);
     Course getCourseById(int courseId);
     List<Course> getAllCourses();
+    void assignInstructorToCourse(int courseId, int instructorId);
 }

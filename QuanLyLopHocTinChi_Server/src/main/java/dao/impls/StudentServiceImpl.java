@@ -2,7 +2,6 @@ package dao.impls;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import java.util.List;
 
@@ -14,43 +13,32 @@ import entity.Student;
 public class StudentServiceImpl implements StudentService {
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyLopHocTinChi_Server");
 
-	
-//	@Override
-//    public void registerCourse(Student student, Course course) {
-//        EntityTransaction transaction = null;
-//        try {
-//            transaction = EntityManager.getTransaction();
-//            transaction.begin();
-//
-//            // Thêm sinh viên vào danh sách sinh viên đã đăng ký của môn học
-//            Enrollment en = new Enrollment(student, course, null, null);
-//            course.getEnrollments().add(en);
-//            entityManager.merge(course);
-//
-//            transaction.commit();
-//        } catch (Exception e) {
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//            e.printStackTrace();
-//        }
-//    }
-//}
 	public StudentServiceImpl() {
 		super();
 	}
 	 
 	
 	 @Override
-	 public void registerCourse(Student student, Course course) {
+	 public void registerCourse(int studentId, int courseId) {
 			EntityManager em = emf.createEntityManager();
 			
 			try {
 				em.getTransaction().begin();
-	            Enrollment en = new Enrollment(student, course, null, null);
-	            course.getEnrollments().add(en);
-	            em.merge(course);
-	            em.getTransaction().commit();
+	            Course course = em.find(Course.class, courseId);
+	            Student student = em.find(Student.class, studentId);
+	            
+	            if(course != null && student != null) {   
+	                Enrollment en = new Enrollment();
+	            	en.setCourse(course);
+	            	en.setStudent(student);
+	            	course.getEnrollments().add(en);
+	            	em.merge(course);
+	            	em.getTransaction().commit();
+	            } else {
+	            	em.getTransaction().rollback();
+	            }
+	            
+	            em.close();
 	        } catch (Exception e) {
 	            if (em.getTransaction() != null && em.getTransaction().isActive()) {
 	            	em.getTransaction().rollback();

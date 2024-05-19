@@ -2,12 +2,11 @@ package dao;
 
 import java.util.List;
 
-import entity.Course;
 import entity.Student;
 
 public interface StudentService {
 //	void enrollStudentInCourse(Student student, Course course);
-    void registerCourse(Student student, Course course);
+    void registerCourse(int studentId, int courseId);
     void addStudent(Student student);
     void updateStudent(Student student);
     void deleteStudent(int studentId);

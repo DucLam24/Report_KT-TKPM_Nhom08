@@ -7,6 +7,7 @@ import java.util.List;
 
 import dao.CourseService;
 import entity.Course;
+import entity.Instructor;
 
 public class CourseServiceImpl implements CourseService {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyLopHocTinChi_Server");
@@ -56,6 +57,31 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courses = em.createQuery("SELECT c FROM Course c", Course.class).getResultList();
         em.close();
         return courses;
+    }
+    
+    
+    @Override
+    public void assignInstructorToCourse(int courseId, int instructorId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+        	em.getTransaction().begin();
+            Course course = em.find(Course.class, courseId);
+            Instructor instructor = em.find(Instructor.class, instructorId);
+            if (course != null && instructor != null) {
+                course.setInstructor(instructor);
+                instructor.getCourses().add(course);
+                em.merge(course);
+                em.getTransaction().commit();
+            } else {
+                em.getTransaction().rollback();
+            }
+            em.close();
+		} catch (Exception e) {
+            if (em.getTransaction() != null && em.getTransaction().isActive()) {
+            	em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+		}
     }
 }
 

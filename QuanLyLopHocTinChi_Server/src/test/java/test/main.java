@@ -36,18 +36,19 @@ public class main {
 			Department deps = dep.getDepartmentById(1);
 			Instructor instructor = ins.getInstructorById(1);
 			Course course =  courseDao.getCourseById(5);
+			
 
-			stu.registerCourse(st, course);
+//			stu.registerCourse(st, course);
 			
 			
 		
 		
-//		List<Student> stus = stu.getAllStudents();
+		List<Enrollment> enr =  course.getEnrollments();
 //		
-//		for (Student student : stus) {
+		for (Enrollment enrollment : enr) {
 //			
-//			System.out.println(student.getName());
-//		}
+			System.out.println(enrollment.getStudent().getName());
+		}
 		
 		
 
